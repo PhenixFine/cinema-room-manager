@@ -8,10 +8,15 @@ fun main() {
         main()
     } else {
         val theater = Array(rows) { Array(seats) { 'S' } }
+        var command = getNum(menu())
 
-        printSeats(theater)
-        reserveSeat(theater, totalSeats)
-        printSeats(theater)
+        while (command != 0) {
+            when (command) {
+                1 -> printSeats(theater)
+                2 -> reserveSeat(theater, totalSeats)
+            }
+            command = getNum(menu())
+        }
     }
 }
 
@@ -26,6 +31,12 @@ fun getNum(text: String, defaultMessage: Boolean = false): Int {
     } while (!isNumber(num))
 
     return num.toInt()
+}
+
+fun menu(): String {
+    return ("\n1. Show the seats\n" +
+            "2. Buy a ticket\n" +
+            "0. Exit")
 }
 
 fun printSeats(theater: Array<Array<Char>>) {
@@ -47,7 +58,7 @@ fun reserveSeat(theater: Array<Array<Char>>, totalSeats: Int) {
         val price = if (totalSeats > 60 && row > theater.size / 2) 8 else 10
 
         theater[row - 1][seat - 1] = 'B'
-        println("\nTicket price: $$price")
+        println("Ticket price: $$price")
     } catch (e: IndexOutOfBoundsException) {
         println("Please enter numbers within 1 and ${theater.size} for rows, and 1 and ${theater[0].size} for seats.")
         reserveSeat(theater, totalSeats)
